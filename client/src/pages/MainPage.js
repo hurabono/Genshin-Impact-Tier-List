@@ -45,7 +45,7 @@ function MainPage({ onLogout, token }) {
 
   // 소켓 연결
   useEffect(() => {
-    const newSocket = io("http://localhost:4000");
+    const newSocket = io("http://localhost:10000");
     setSocket(newSocket);
 
     newSocket.on("chat", (data) => {
