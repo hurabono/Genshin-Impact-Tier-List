@@ -6,7 +6,6 @@ import RegionSelector from "../components/RegionSelector";
 import TierChart from "../components/TierChart";
 import CharacterGrid from "../components/CharacterGrid";
 import ChatBox from "../components/ChatBox";
-import { io } from "socket.io-client";
 import { regionCharacters } from "../data/regionData";
 import html2canvas from 'html2canvas';
 import { createSocket } from '../socket';
