@@ -8,11 +8,12 @@ const http = require("http");
 const cors = require("cors");
 const connectDB = require("./src/config/db");
 const authRoutes = require("./src/routes/authRoutes");
-
+const path = require("path");
 
 // Socket
 const { Server } = require("socket.io");
 const chatSocket = require("./src/socket/chatSocket");
+
 
 // 1) DB 연결
 connectDB(process.env.DB_URI);
@@ -38,6 +39,16 @@ const { verifyToken } = require("./src/middlewares/authMiddleware");
 app.get("/api/protected", verifyToken, (req, res) => {
   return res.json({ message: "토큰이 유효함", user: req.user });
 });
+
+
+// 정적 파일 서빙 (client/build 내부 파일들을 정적으로 제공)
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// SPA 처리: 나머지 모든 GET 요청을 React의 index.html로 포워딩
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
 
 // 4) Socket IO 세팅
 chatSocket(io);
