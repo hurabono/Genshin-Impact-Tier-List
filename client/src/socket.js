@@ -1,8 +1,7 @@
 // src/socket.js
-// 채팅을 담당하는 백엔드와 연결된  소켓 클라이언트입니다
-
 import { io } from 'socket.io-client';
 
+// 토큰을 인자로 받아 소켓 연결을 생성하는 함수
 export function createSocket(token) {
   const socket = io('https://genshin-impact-tier-list-server.onrender.com/', {
     auth: {
@@ -13,5 +12,3 @@ export function createSocket(token) {
 
   return socket;
 }
-
-

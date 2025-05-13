@@ -1,24 +1,24 @@
 // src/ChatContainer.js
-// 실시간 채팅 socket을 사용하여 메시지를 주고받는 컴포넌트 로직 입니다!
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ChatBox from './components/ChatBox';
-import socket from './socket';
+import { createSocket } from './socket'; 
 
 function ChatContainer() {
   const [messages, setMessages] = useState([]);
   const [nickname, setNickname] = useState('');
   const [chatInput, setChatInput] = useState('');
+  const socketRef = useRef(null); 
 
   useEffect(() => {
-    socket.connect();
+    const token = localStorage.getItem('token'); 
+    socketRef.current = createSocket(token); 
 
-    socket.on('chat message', (msg) => {
+    socketRef.current.on('chat message', (msg) => {
       setMessages((prev) => [...prev, msg]);
     });
 
     return () => {
-      socket.disconnect();
+      socketRef.current.disconnect();
     };
   }, []);
 
@@ -28,7 +28,7 @@ function ChatContainer() {
         nickname,
         message: chatInput,
       };
-      socket.emit('chat message', msgObj);
+      socketRef.current.emit('chat message', msgObj);
       setChatInput('');
     }
   };

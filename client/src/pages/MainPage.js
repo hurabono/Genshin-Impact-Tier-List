@@ -6,9 +6,11 @@ import RegionSelector from "../components/RegionSelector";
 import TierChart from "../components/TierChart";
 import CharacterGrid from "../components/CharacterGrid";
 import ChatBox from "../components/ChatBox";
+// import { io } from "socket.io-client";
 import { regionCharacters } from "../data/regionData";
 import html2canvas from 'html2canvas';
 import { createSocket } from '../socket';
+
 
 function MainPage({ onLogout, token }) {
   // 제목 & 모달
@@ -47,12 +49,12 @@ function MainPage({ onLogout, token }) {
     if (token) {
       const newSocket = createSocket(token);
       setSocket(newSocket);
-
+  
       newSocket.on('connect', () => {
         console.log("소켓 연결됨:", newSocket.id);
       });
-
-      return () => newSocket.disconnect(); // 컴포넌트 언마운트 시 정리
+  
+      return () => newSocket.disconnect();
     }
   }, []);
   
