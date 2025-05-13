@@ -45,7 +45,7 @@ function MainPage({ onLogout, token }) {
 
   // 소켓 연결
   useEffect(() => {
-    const newSocket = io("http://localhost:10000");
+    const newSocket = io("https://genshin-impact-tier-list-server.onrender.com/");
     setSocket(newSocket);
 
     newSocket.on("chat", (data) => {
