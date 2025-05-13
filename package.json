@@ -8,8 +8,5 @@
         "postinstall": "npm run install-client && npm run install-server",
         "build": "cd client && npm run build",
         "start": "node server/server.js"
-    },
-    "dependencies": {
-        "react-scripts": "^5.0.1"
     }
 }
