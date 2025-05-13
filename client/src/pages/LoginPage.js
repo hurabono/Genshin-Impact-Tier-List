@@ -1,6 +1,6 @@
 // src/pages/LoginPage.js
 import React, { useState } from "react";
-import axios from "axios";
+import API from "../api";
 
 function LoginPage({ onLoginSuccess }) {
   const [username, setUsername] = useState("");
@@ -8,7 +8,7 @@ function LoginPage({ onLoginSuccess }) {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", {
+      const res = await API.post("/auth/login", {
         username,
         password,
       });
