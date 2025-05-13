@@ -102,11 +102,3 @@ npm run dev
 Ensure CORS and socket URLs are properly set for production
 
 ---
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/genshin-impact-tier-list.git
-cd genshin-impact-tier-list
