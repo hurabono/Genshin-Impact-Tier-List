@@ -9,7 +9,7 @@ import ChatBox from "../components/ChatBox";
 import { io } from "socket.io-client";
 import { regionCharacters } from "../data/regionData";
 import html2canvas from 'html2canvas';
-import { createSocket } from './socket';
+import { createSocket } from '../socket';
 
 function MainPage({ onLogout, token }) {
   // 제목 & 모달
