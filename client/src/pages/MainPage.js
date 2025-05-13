@@ -9,6 +9,7 @@ import ChatBox from "../components/ChatBox";
 import { io } from "socket.io-client";
 import { regionCharacters } from "../data/regionData";
 import html2canvas from 'html2canvas';
+import { createSocket } from './socket';
 
 function MainPage({ onLogout, token }) {
   // 제목 & 모달
@@ -42,24 +43,44 @@ function MainPage({ onLogout, token }) {
   const [nickname, setNickname] = useState("");
   const [chatInput, setChatInput] = useState("");
   
-
-  // 소켓 연결
   useEffect(() => {
-    const newSocket = io("https://genshin-impact-tier-list-server.onrender.com/");
-    setSocket(newSocket);
+    const token = localStorage.getItem("token");
+    if (token) {
+      const newSocket = createSocket(token);
+      setSocket(newSocket);
 
-    newSocket.on("chat", (data) => {
+      newSocket.on('connect', () => {
+        console.log("소켓 연결됨:", newSocket.id);
+      });
+
+      return () => newSocket.disconnect(); // 컴포넌트 언마운트 시 정리
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (!socket) return;
+  
+    // 채팅 메시지 수신
+    socket.on("chat", (data) => {
       setChatMessages((prev) => [...prev, data]);
     });
-
-    newSocket.on("tier updated", (updatedTier) => {
-      setRankSlots(updatedTier); // 다른 유저가 보낸 티어로 갱신
+  
+    // 티어 업데이트 수신
+    socket.on("tier updated", (updatedTier) => {
+      setRankSlots(updatedTier);
     });
-
+  
+    // 캐릭터 하이라이트 수신
+    socket.on("character highlight", ({ character, socketId }) => {
+      console.log(`다른 유저(${socketId})가 캐릭터 선택:`, character);
+    });
+  
     return () => {
-      newSocket.disconnect();
+      socket.off("chat");
+      socket.off("tier updated");
+      socket.off("character highlight");
     };
-  }, []);
+  }, [socket]);
 
 
   useEffect(() => {

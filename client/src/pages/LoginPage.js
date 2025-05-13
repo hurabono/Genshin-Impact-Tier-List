@@ -13,6 +13,7 @@ function LoginPage({ onLoginSuccess }) {
         password,
       });
       const { token } = res.data;
+      localStorage.setItem("token", token);
       alert("로그인 성공!");
       onLoginSuccess(token);
     } catch (err) {

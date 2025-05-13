@@ -1,10 +1,11 @@
 // src/socket.js
 // 채팅을 담당하는 백엔드와 연결된  소켓 클라이언트입니다
 
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
 
-const socket = io('http://localhost:4000', {
-  autoConnect: false, 
-});
-
-export default socket;
+export const createSocket = (token) => {
+  return io("https://genshin-impact-tier-list-server.onrender.com/", {
+    auth: { token },
+    transports: ['websocket'], 
+  });
+};
